@@ -368,7 +368,7 @@
                 "enabledForDiskEncryption": "[variables('enabledForDiskEncryption')]",
                 "enabledForTemplateDeployment": "[variables('enabledForTemplateDeployment')]",
                 "enableSoftDelete": true,
-                "enablePurgeProtection": true,
+               ///"enablePurgeProtection": true,
                 "tenantId": "[variables('tenantId')]",
                 "accessPolicies": [
                     {

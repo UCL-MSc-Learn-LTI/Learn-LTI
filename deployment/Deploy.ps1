@@ -5,7 +5,7 @@
 
 [CmdletBinding()]
 param (
-    [string]$ResourceGroupName = "MSLearnLTI",
+    [string]$ResourceGroupName = "RB_MSLearnLTI",
     [string]$AppName = "MS-Learn-Lti-Tool-App",
     [switch]$UseActiveAzureAccount,
     [string]$SubscriptionNameOrId = $null,
@@ -195,6 +195,7 @@ process {
         Write-Title 'STEP #6 - Creating Resources in Azure'
     
         $userObjectId = az ad signed-in-user show --query objectId
+        #$userObjectId = az ad signed-in-user show --query id
         #$userObjectId
     
         $templateFileName = "azuredeploy.json"
