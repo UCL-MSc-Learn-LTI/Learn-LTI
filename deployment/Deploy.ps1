@@ -46,6 +46,18 @@ process {
         Start-Transcript -Path $TranscriptFile;
         #endregion
 
+        #region Multi-tenant or Single-Tenant Choice
+        Write-Title "STEP #0 - Multi-tenant or Single-Tenant Choice"
+
+        Write-Host "Do you want to use a multi-tenant (m) or single-tenant (s) subscription? (m/s): "
+        $tenantChoice = ""
+        while($tenantChoice -ne 'm' -and $tenantChoice -ne 's') {
+            $tenantChoice = Read-Host
+            $result = If($tenantChoice -eq "m") {"Selected: multi-tenant"} Else {"Selected: single-tenant"}
+            Write-Host $result
+        }
+        #endregion
+
         #region Login to Azure CLI        
         Write-Title 'STEP #1 - Logging into Azure'
 
