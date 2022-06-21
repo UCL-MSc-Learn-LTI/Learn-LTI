@@ -16,7 +16,7 @@ By now, you should've obtained the following parameters from the Microsoft Learn
 - Public JWK
 - Public JWK Set URL
 
-If you are not the one who deployed the application, you need to obtain the parameters from that person./
+If you are not the one who deployed the application, you need to obtain the parameters from that person.
 
 The configuration steps slightly differ depending on the LMS you are using. In general, they will involve registering the Microsoft Learn LTI application as an external tool in the LMS and registering the parameters of external tool back in the Microsoft Learn LTI application's registration page. The following examples show how to configure Microsoft Learn LTI application with three of the popular LMS.
 
