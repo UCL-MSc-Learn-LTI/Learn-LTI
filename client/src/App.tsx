@@ -12,7 +12,7 @@ import { GlobalRouter } from './Router/GlobalRouter';
 import { registerIcons, loadTheme } from '@uifabric/styling';
 import { fabricIconsData } from './Assets/Fonts/FabricIconsData';
 import { AxiosBasicAuthInitializer } from './Core/Auth/AxiosBasicAuthInitializer';
-import AzureAD from 'react-aad-msal';
+import AzureAD  from 'react-aad-msal';
 import { AppAuthConfig } from './Core/Auth/AppAuthConfig';
 import { initializeIcons } from '@fluentui/react';
 import { appTheme } from './Core/Themes/MainTheme';
