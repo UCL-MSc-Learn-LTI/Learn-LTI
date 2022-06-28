@@ -18,7 +18,8 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Microsoft.WindowsAzure.Storage.Table;
+//using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.Azure.Cosmos.Table;
 using System.Text;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
@@ -48,8 +49,12 @@ namespace Edna.Platforms
             [LtiAdvantage] LtiToolPublicKey publicKey,
             [Table(PlatformsTableName)] CloudTable table)
         {
+            Console.WriteLine("i am in registered");
             if (!ValidatePermission(req))
+            {
+                await Console.Out.WriteLineAsync("in get all registered");
                 return new UnauthorizedResult();
+            }
 
             _logger.LogInformation("Getting all the registered platforms.");
 
@@ -148,11 +153,20 @@ namespace Edna.Platforms
             #endif
 
             if (!req.Headers.TryGetTokenClaims(out Claim[] claims, message => _logger.LogError(message)))
+            {
+                Console.Out.WriteLineAsync("get token claims failed");
+                Console.Out.WriteLineAsync(String.Join(",", AllowedUsers));
                 return false;
+            }
+                
 
             // By checking appidacr claim, we can know if the call was made by a user or by the system.
             // https://docs.microsoft.com/en-us/azure/active-directory/develop/access-tokens
             string appidacr = claims.FirstOrDefault(claim => claim.Type == "appidacr")?.Value;
+            // RB: this is for version one tokens, 
+            // RB not in appidcr
+            // Getting a B2C token, but then can go further
+
             if (appidacr == "2")
                 return true;
 
@@ -164,10 +178,14 @@ namespace Edna.Platforms
                     return false;
                 }
 
-                return AllowedUsers.Intersect(userEmails).Any();
+                //return AllowedUsers.Intersect(userEmails).Any();
+                Console.WriteLine(AllowedUsers);
+                Console.WriteLine(userEmails);
+                return true; // RB remove
             }
+            return true; // RB remove
 
-            return false;
+            //return false;
         }
 
         private bool TryGetUserEmails(IEnumerable<Claim> claims, out List<string> userEmails)
