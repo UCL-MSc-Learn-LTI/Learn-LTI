@@ -26,11 +26,16 @@ process {
         Write-Host $Title
         Write-Host "=============================================================`n`n"
     }
-    
     try {
         #application ID and uri
         $clientId = "a15f3fac-c0e5-491f-8a17-41233e28ab8c"
         $apiURI = "api://a15f3fac-c0e5-491f-8a17-41233e28ab8c"
+
+        #B2C parameters
+        $b2c_secret = "hard-code value"
+        $REACT_APP_EDNA_B2C_CLIENT_ID = 'hard-code client id'
+        $REACT_APP_EDNA_B2C_TENANT = 'hard-code b2c tenant'
+        $REACT_APP_EDNA_AUTH_CLIENT_ID = 'hard-code client id'
 
         #region Show Learn LTI Banner
         Write-Host ''
@@ -85,6 +90,59 @@ process {
 
         Write-Log -Message "Successfully logged in to Azure."
         #endregion
+
+
+
+        #region "formatting a unique identifier to ensure we create a new keyvault for each run"
+
+        $b2c_secret =  '"'+$b2c_secret+'"'
+        ((Get-Content -path ".\azuredeployTemplate.json" -Raw) -replace '"<AZURE_B2C_SECRET_STRING>"', $b2c_secret) |  Set-Content -path (".\azuredeploy.json")
+        
+        [string]$dir = Get-Location
+        $dir += "/../client/.env.production"
+        #$dir += ".env.production"
+
+        $old_REACT_APP_EDNA_B2C_CLIENT_ID=''
+        $old_REACT_APP_EDNA_B2C_TENANT=''
+        $old_REACT_APP_EDNA_AUTH_CLIENT_ID=''
+        [System.IO.File]::ReadLines($dir) |  ForEach-Object {
+               if(  $_ -Match "REACT_APP_EDNA_B2C_CLIENT_ID" ){
+                   $configuration_line = $_ -split "="
+                   $old_REACT_APP_EDNA_B2C_CLIENT_ID = $_
+                   $REACT_APP_EDNA_B2C_CLIENT_ID = $configuration_line[0]+"="+"'"+$REACT_APP_EDNA_B2C_CLIENT_ID+"'"
+                   echo $REACT_APP_EDNA_B2C_CLIENT_ID
+               }
+               elseif ( $_ -Match "REACT_APP_EDNA_B2C_TENANT"){
+                   $configuration_line = $_ -split "="
+                   $old_REACT_APP_EDNA_B2C_TENANT = $_
+                   $REACT_APP_EDNA_B2C_TENANT = $configuration_line[0]+"="+"'"+$REACT_APP_EDNA_B2C_TENANT+"'"
+                   echo $REACT_APP_EDNA_B2C_TENANT
+               }
+               elseif ( $_ -Match "REACT_APP_EDNA_AUTH_CLIENT_ID"){
+                   $configuration_line = $_ -split "="
+                   $old_REACT_APP_EDNA_AUTH_CLIENT_ID = $_
+                   $REACT_APP_EDNA_AUTH_CLIENT_ID = $configuration_line[0]+"="+"'"+$REACT_APP_EDNA_AUTH_CLIENT_ID+"'"
+                   echo $REACT_APP_EDNA_AUTH_CLIENT_ID
+               }
+               else{
+                   echo $false
+               }
+        }   
+        $filecontent = Get-Content $dir
+        $filecontent -replace $old_REACT_APP_EDNA_B2C_CLIENT_ID,$REACT_APP_EDNA_B2C_CLIENT_ID | Set-Content ".env.production"
+        
+        $filecontent = Get-Content $dir
+        $filecontent -replace $old_REACT_APP_EDNA_B2C_TENANT,$REACT_APP_EDNA_B2C_TENANT | Set-Content ".env.production"
+        
+        $filecontent = Get-Content $dir
+        $filecontent -replace $old_REACT_APP_EDNA_AUTH_CLIENT_ID,$REACT_APP_EDNA_AUTH_CLIENT_ID | Set-Content ".env.production"
+        
+       Read-Host 'Debug stop.....'
+        #endregion
+
+
+
+
 
         #region Choose Active Subcription 
         Write-Title 'STEP #2 - Choose Subscription'
@@ -212,12 +270,13 @@ process {
     
         
 
-       
+        
 
-    
+
+
 
         #region Provision Resources inside Resource Group on Azure using ARM template
-        Write-Title 'STEP #6 - Creating Resources in Azure'
+        Write-Title 'STEP #5 - Creating Resources in Azure'
     
         $userObjectId = az ad signed-in-user show --query objectId
         #$userObjectId
@@ -236,7 +295,7 @@ process {
 
         Write-Host 'Resource Creation in Azure Completed Successfully'
         
-        Write-Title 'Step #7 - Updating KeyVault with LTI 1.3 Key'
+        Write-Title 'Step #6 - Updating KeyVault with LTI 1.3 Key'
 
         
 
@@ -270,7 +329,7 @@ process {
 
         #region Build and Publish Function Apps
         . .\Limited-Install-Backend.ps1
-        Write-Title "STEP #10 - Installing the backend"
+        Write-Title "STEP #7 - Installing the backend"
     
 
         # Comment out any you don't want to deploy
