@@ -131,6 +131,34 @@ process {
         $UserEmailAddress = $ActiveSubscription.user.name
         #endregion
 
+        function Is-Numeric ($Value)
+        {
+            return $Value -match "^[\d\.]+$"
+        }
+        
+        Write-Title "Choose the authentication mode from below`r`n1.AD mode`r`n2.B2C mode"
+        while($true){
+            [string]$cho = Read-Host "choose the mode by typing it's index (for eg: for AD mode, enter 1):"
+            if(Is-Numeric($cho)){
+                $ch= [int]$cho
+                if($ch -eq 1){
+                    Write-Host "AD mode selected"
+                    break
+                }
+                elseif($ch -eq 2){
+                    Write-Host "B2C mode selected"
+
+                    break
+                }
+                else {
+                    Write-Host "Invalid input"
+                }
+            }
+            else {
+                Write-Host "Invalid input"
+            }
+        }
+
         #region Choose Region for Deployment
         Write-Title "STEP #3 - Choose Location`n(Please refer to the Documentation / ReadMe on Github for the List of Supported Locations)"
 
@@ -152,12 +180,6 @@ process {
         }
         #endregion
         
-        Write-Title "Choose the authentication mode from below`r`n1.AD mode`r`n2.B2C mode"
-        [int]$ch = Read-Host "choose the mode by typing it's index (for eg: for AD mode, enter 1):"
-        
-
-
-
         #region Create New App Registration in AzureAD
         Write-Title 'STEP #4 - Registering Azure Active Directory App'
     
