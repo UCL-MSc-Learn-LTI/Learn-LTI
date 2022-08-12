@@ -21,6 +21,7 @@ param (
 )
 
 process {
+
     function Write-Title([string]$Title) {
         Write-Host "`n`n============================================================="
         Write-Host $Title
@@ -30,7 +31,6 @@ process {
         #region "formatting a unique identifier to ensure we create a new keyvault for each run"
         # $uniqueIdentifier = [Int64]((Get-Date).ToString('yyyyMMddhhmmss')) #get the current second as being the unique identifier
         $uniqueIdentifier = "1" # Using lat value instead as Limited deploy is just to get a faster deploy useful for testing only; so we want to replace in place
-        ((Get-Content -path ".\azuredeployTemplate.json" -Raw) -replace '<IDENTIFIER_DATETIME>', ("'"+$uniqueIdentifier+"'")) |  Set-Content -path (".\azuredeploy.json")
         #endregion
 
         #region Show Learn LTI Banner
@@ -57,6 +57,27 @@ process {
         $TranscriptFile = Join-Path $LogRoot "Transcript-$ExecutionStartTime.log"
         Start-Transcript -Path $TranscriptFile;
         #endregion
+
+        $b2cOrAD = "none"
+        while($b2cOrAD -ne "b2c" -and $b2cOrAD -ne "ad") {
+            $b2cOrAD = Read-Host "Are you installing over a b2c or ad application: (b2c/ad)"
+        }
+        
+        $REACT_APP_EDNA_B2C_CLIENT_ID = "'NA'"
+        $REACT_APP_EDNA_AUTH_CLIENT_ID = "'Placeholder'" # either replaced below by returned value of b2c script if b2cOrAD = "b2c", or just before step 11.a to AAD_Client_ID's ($appinfo.appId) value if b2cOrAD = "ad"
+        $b2c_secret = "'NA'"
+        $REACT_APP_EDNA_B2C_TENANT = "'NA'"
+        $b2c_tenant_name_full = "'NA'"
+
+        if ($b2cOrAD -eq "b2c")
+        {
+            $AD_Tenant_Name_full = Read-Host 'Enter the fully qualified tenant name of AD server'  # tenant name of the AD server
+            $b2c_tenant_name_full = Read-Host 'Enter the fully qualified tenant name of B2C server' #b2c tenant name
+            $REACT_APP_EDNA_B2C_TENANT =  Read-Host 'Enter the short tenant name of the b2c'#b2c tenant name
+            $REACT_APP_EDNA_B2C_CLIENT_ID = Read-Host 'Enter webclient id of the b2c' #webclient ID
+            $REACT_APP_EDNA_AUTH_CLIENT_ID = $REACT_APP_EDNA_B2C_CLIENT_ID #webclient ID
+            $b2c_secret = Read-Host 'Enter webclient secret for the b2c' #webclient secret
+        }
 
         #region Login to Azure CLI        
         Write-Title 'STEP #1 - Logging into Azure'
@@ -157,6 +178,9 @@ process {
 
         [string]$checkApplicationIdExist = (az ad app list --app-id $clientId)
         [string]$checkApplicationNameExist = (az ad app list --display-name $AppName)
+
+        Write-Host "ApplicationId:" $checkApplicationIdExist
+        Write-Host "Application Name:" $checkApplicationNameExist
         
         if($checkApplicationIdExist -eq $checkApplicationNameExist){
             Write-Host "Application exists."
@@ -223,6 +247,25 @@ process {
         else {
         $userObjectId = az ad signed-in-user show --query objectId
         }
+
+        if($b2cOrAD -eq "b2c"){
+            $policy_name = "b2c_1a_signin" 
+            $OPENID_B2C_CONFIG_URL_IDENTIFIER = "https://${REACT_APP_EDNA_B2C_TENANT}.b2clogin.com/${b2c_tenant_name_full}/${policy_name}/v2.0/.well-known/openid-configuration"
+            $OPENID_AD_CONFIG_URL_IDENTIFIER = "https://login.microsoft.com/${AD_Tenant_Name_full}/v2.0/.well-known/openid-configuration"
+
+            (Get-Content -path ".\azuredeployB2CTemplate.json" -Raw) `
+                -replace '<B2C_APP_CLIENT_ID_IDENTIFIER>', ($REACT_APP_EDNA_B2C_CLIENT_ID) `
+                -replace '<IDENTIFIER_DATETIME>', ("'"+$uniqueIdentifier+"'") `
+                -replace '<OPENID_B2C_CONFIG_URL_IDENTIFIER>', ($OPENID_B2C_CONFIG_URL_IDENTIFIER) `
+                -replace '<AZURE_B2C_SECRET_STRING>', ($b2c_secret) `
+                -replace '<OPENID_AD_CONFIG_URL_IDENTIFIER>', ($OPENID_AD_CONFIG_URL_IDENTIFIER) | Set-Content -path (".\azuredeploy.json")
+        }
+        else {
+            ((Get-Content -path ".\azuredeployADTemplate.json" -Raw) -replace '<IDENTIFIER_DATETIME>', ("'"+$uniqueIdentifier+"'")) |  Set-Content -path (".\azuredeploy.json")
+        }
+
+        $templateFileName = "azuredeploy.json"
+        $deploymentName = "Deployment-$ExecutionStartTime"
 
         Write-Log -Message "Deploying ARM Template to Azure inside ResourceGroup: $ResourceGroupName with DeploymentName: $deploymentName, TemplateFile: $templateFileName, AppClientId: $clientId, IdentifiedURI: $apiURI"
         $deploymentOutput = (az deployment group create --resource-group $ResourceGroupName --name $deploymentName --template-file $templateFileName --parameters appRegistrationClientId=$clientId appRegistrationApiURI=$apiURI userEmailAddress=$($UserEmailAddress) userObjectId=$($userObjectId)) | ConvertFrom-Json;
@@ -300,6 +343,9 @@ process {
             PlatformsFunctionAppName=$deploymentOutput.properties.outputs.PlatformsFunctionName.value;
             UsersFunctionAppName=$deploymentOutput.properties.outputs.UsersFunctionName.value;
             StaticWebsiteUrl=$deploymentOutput.properties.outputs.webClientURL.value;
+            b2cClientID=$REACT_APP_EDNA_B2C_CLIENT_ID; #defaulted to 'NA' if AD
+            b2cTenantName=$REACT_APP_EDNA_B2C_TENANT; #defaulted to 'NA' if AD
+            authClientID=$REACT_APP_EDNA_AUTH_CLIENT_ID #defaulted to $appinfo.appId if AD
         }
         Update-ClientConfig @ClientUpdateConfigParams
     
