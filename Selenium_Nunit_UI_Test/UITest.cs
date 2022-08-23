@@ -70,12 +70,14 @@ namespace Selenium_Nunit_UI_Test
             // Input Username
 
             driver.FindElement(By.TagName("input")).SendKeys(username);
+            Thread.Sleep(3000);
             driver.FindElement(By.Id("idSIButton9")).Click();
             Thread.Sleep(3000);
 
             // Input Password
 
             driver.FindElement(By.Id("i0118")).SendKeys(password);
+            Thread.Sleep(3000);
             driver.FindElement(By.Id("idSIButton9")).Click();
             Thread.Sleep(6000);
 
@@ -149,15 +151,15 @@ namespace Selenium_Nunit_UI_Test
             // Login as teacher
             
             Login(usertype);
-            Thread.Sleep(1500);
+            Thread.Sleep(3000);
 
             // Choose My Course tab
             
             var Tabs = driver.FindElements(By.CssSelector("a[role='menuitem']"));
-            Thread.Sleep(1500);
+            Thread.Sleep(3000);
 
             Tabs[2].Click();
-            Thread.Sleep(1500);
+            Thread.Sleep(3000);
 
             // Click on course
 
@@ -171,19 +173,19 @@ namespace Selenium_Nunit_UI_Test
                     break;
                 }
             }
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             // Toggle Edit mode
             
             driver.FindElement(By.CssSelector("input[name='setmode']")).Click();
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             // Add new assignment
 
             driver.FindElements(By.CssSelector("span[class='activity-add-text']"))[0].Click();
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
             driver.FindElement(By.CssSelector("a[title='Add a new External tool']")).Click();
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             // Fill in tools
 
@@ -192,12 +194,12 @@ namespace Selenium_Nunit_UI_Test
             var selectElement = new SelectElement(driver.FindElement(By.Id("id_typeid")));
             selectElement.SelectByText("RB_luke-1.3");
 
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
             driver.FindElement(By.Id("id_submitbutton2")).Click();
 
             // Check if assingment is created
 
-            Thread.Sleep(2000);
+            Thread.Sleep(3000);
             var All_Assignment = driver.FindElements(By.CssSelector("span[class='instancename']"));
             bool assignment_created = false;
             foreach (var assignment in All_Assignment)
