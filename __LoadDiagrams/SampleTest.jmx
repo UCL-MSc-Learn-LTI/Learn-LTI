@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.5">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Azure Load Testing Quickstart" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Web endpoint test" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">10</stringProp> <!-- Loop Count -->
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">250</stringProp> <!-- Number of Users -->
+        <stringProp name="ThreadGroup.ramp_time">10</stringProp> <!-- Ramp Up Period -->
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration">120</stringProp>
+        <stringProp name="ThreadGroup.delay">5</stringProp>
+        <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="HTTP request" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">assignments-hdpcpw5am.azurewebsites.net</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+          <stringProp name="HTTPSampler.path">/api/assignments/NQ==_MTQw</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Authorization</stringProp>
+                <stringProp name="Header.value">bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjQ1aGFyLW93M1p6OFpFWG5TejNWZElqbzg1QUp0MVFILUxvMXdhZnYzSzQifQ.eyJpc3MiOiJodHRwczovL2x0aW1vb2RsZWIyYy5iMmNsb2dpbi5jb20vYTU1MzI1ZjctOTlkZC00N2QyLWEzOTgtYzExMmU5ODhiMWFlL3YyLjAvIiwiZXhwIjoxNjYxMzM0NjExLCJuYmYiOjE2NjEzMzEwMTEsImF1ZCI6ImU2NjA3Y2RiLTU1ODYtNDA3OC1iOGFhLTE3M2VhMzlmZTNkZiIsImVtYWlsIjoibGlsaW4uaHVhbmcuMjFAdWNsLmFjLnVrIiwidGlkIjoiMWZhZjg4ZmUtYTk5OC00YzViLTkzYzktMjEwYTExZDlhNWMyIiwiZ2l2ZW5fbmFtZSI6IkxpbGluIiwiZmFtaWx5X25hbWUiOiJIdWFuZyIsIm5hbWUiOiJIdWFuZywgTGlsaW4iLCJpZHAiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMWZhZjg4ZmUtYTk5OC00YzViLTkzYzktMjEwYTExZDlhNWMyL3YyLjAiLCJzdWIiOiI1NTc5ZGJkZi1mNmY2LTQ3NGQtYTJmZC05MTNmYTcyYzlkY2IiLCJfaXNCMkNUb2tlbiI6dHJ1ZSwibm9uY2UiOiJjMjRiZThkNy04MDY0LTQwYWYtOGQ4Ny1mNmExNmVkMTE4ZWEiLCJzY3AiOiJiMmMucmVhZCIsImF6cCI6ImU2NjA3Y2RiLTU1ODYtNDA3OC1iOGFhLTE3M2VhMzlmZTNkZiIsInZlciI6IjEuMCIsImlhdCI6MTY2MTMzMTAxMX0.CYqxzTkHBjirwGJnvx2NZDbKsk2nX0BOiTa-3T9V_pwxD8HZ4JUG2dtxi9LtWlsgnrtCUXXIuRSC403yb09CAENME9gZaaj0LeeboJ4U5haL7KYQjLlQE6D4Dgw5-aZPFKL6JFtNWD5Q0wIBhGeSQgADEer30EGpeLbWe0itFJka3zJj_yzRoimHnTvxUMlTy2FWkJSSse5ERQlWcWsneLKs9cXw359_DjQbHFjZkupvmHTSNam-sIQcOz5Wl6sQ-DVDWYu6K50Xa46C5zU4xzoY5d-TY8UxXNjN8UupvwY9WYrVLDzPXQIbN66AYz_aOE1y39zKAmR4KGCEfEP2bg</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
