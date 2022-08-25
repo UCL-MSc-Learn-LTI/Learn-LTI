@@ -8,22 +8,25 @@ def drawDiagram(xAxis1, yAxis1, xAxis2, yAxis2, xAxis3, yAxis3, xLabel, yLabel, 
 
     plt.plot(xAxis1, yAxis1, linestyle='--', c='lightblue', label=yLegend1)
     plt.scatter(xAxis1, yAxis1, c='blue', marker="x")
-    plt.text(800, min(yAxis1+yAxis2+yAxis3)+(max(yAxis1+yAxis2+yAxis3)-min(yAxis1+yAxis2+yAxis3))*0.7, "B2C Fail at 250", color="blue")
+    # plt.text(800, min(yAxis1+yAxis2+yAxis3)+(max(yAxis1+yAxis2+yAxis3)-min(yAxis1+yAxis2+yAxis3))*0.7, "Our B2C did not fail", color="blue")
 
     plt.plot(xAxis2, yAxis2, linestyle='--', c='pink', label=yLegend2)
     plt.scatter(xAxis2, yAxis2, c='red', marker="x")
-    plt.text(800, min(yAxis1+yAxis2+yAxis3)+(max(yAxis1+yAxis2+yAxis3)-min(yAxis1+yAxis2+yAxis3))*0.45, "Our AD fail at 1000", color="red")
+    # plt.text(800, min(yAxis1+yAxis2+yAxis3)+(max(yAxis1+yAxis2+yAxis3)-min(yAxis1+yAxis2+yAxis3))*0.45, "Our AD does not fail", color="red")
 
     plt.plot(xAxis3, yAxis3, linestyle='--', c='lightgreen', label=yLegend3)
     plt.scatter(xAxis3, yAxis3, c='green', marker="x")
-    plt.text(800, min(yAxis1+yAxis2+yAxis3)+(max(yAxis1+yAxis2+yAxis3)-min(yAxis1+yAxis2+yAxis3))*0.2, "Original AD does not fail", color="green")
+    # plt.text(800, min(yAxis1+yAxis2+yAxis3)+(max(yAxis1+yAxis2+yAxis3)-min(yAxis1+yAxis2+yAxis3))*0.2, "Original AD does not fail", color="green")
     
-    # for xy in zip(xAxis1, yAxis1):
-    #     plt.annotate(' (%d, %.1f)' % xy, xy=xy)
-    # for xy in zip(xAxis2, yAxis2):
-    #     plt.annotate(' (%d, %.1f)' % xy, xy=xy)
-    # for xy in zip(xAxis3, yAxis3):
-    #     plt.annotate(' (%d, %.1f)' % xy, xy=xy)
+    for xy in zip(xAxis1, yAxis1):
+        if(xy[0]>=100):
+            plt.annotate(' (%d, %.1f)' % xy, xy=xy, color='darkblue')
+    for xy in zip(xAxis2, yAxis2):
+        if(xy[0]>=100):
+            plt.annotate(' (%d, %.1f)' % xy, xy=xy, color='darkred')
+    for xy in zip(xAxis3, yAxis3):
+        if(xy[0]>=100):
+            plt.annotate(' (%d, %.1f)' % xy, xy=xy, color='darkgreen')
 
 
 
@@ -58,11 +61,11 @@ yLabel = "HTTP request Response Time (90 perc) in seconds"
 
 
 # b2c = RB_b2c3-MSLearnLti
-xAxis1 = [5,10,20,50,100] # number of users
-yAxis1 = [0.87075, 2.86, 4.76, 6.22, 4.55] # HTTP Request Percentile 90th
+xAxis1 = [5,10,20,50,100,250, 500,1000] # number of users
+yAxis1 = [0.87075, 2.86, 4.76, 6.22, 4.55,10.69, 7.95,13.66] # HTTP Request Percentile 90th
 # our AD = ALLTest2-AD-MSLearnLTI
-xAxis2 = [5,10,20,50,100,250,500] # number of users
-yAxis2 = [0.582, 0.70933, 3.59, 3.67, 8.8,10.74, 11.35]
+xAxis2 = [5,10,20,50,100,250,500,1000] # number of users
+yAxis2 = [0.582, 0.70933, 3.59, 3.67, 8.8,10.74, 11.35, 18.78]
 # original AD = A_MSLearnLTI (?????)
 xAxis3 = [5, 10, 20, 50, 100, 250, 500,1000] # number of users
 yAxis3 = [0.6475, 0.80075, 1.03, 2.84, 4.95, 5.63, 7.39, 12.85]
@@ -78,14 +81,15 @@ yLabel = "Memory Usage Percentage"
 
 
 # b2c = RB_b2c3-MSLearnLti
-yAxis1 = [7.03, 7.29, 7.49, 7.53, 7.78] # HTTP Request Percentile 90th
+yAxis1 = [7.03, 7.29, 7.49, 7.53, 7.78, 8.45, 9.06,10.85] # HTTP Request Percentile 90th
 # our AD = ALLTest2-AD-MSLearnLTI
-yAxis2 = [7.06, 8.07, 7.73, 7.43, 7.92,7.98,8.7]
+yAxis2 = [7.06, 8.07, 7.73, 7.43, 7.92,7.98,8.7, 9.6]
 # original AD = A_MSLearnLTI (?????)
 yAxis3 = [7.06, 7.38, 7.45, 7.54, 8.23, 8.02, 9.38, 10.68]
 
 
-drawDiagram(xAxis1, yAxis1, xAxis2, yAxis2, xAxis3, yAxis3, xLabel, yLabel, Title, "UserImpactOnMemory", "B2C", "Our AD", "Original AD")
+# uncommented for now as we don't care about memory consumption
+# drawDiagram(xAxis1, yAxis1, xAxis2, yAxis2, xAxis3, yAxis3, xLabel, yLabel, Title, "UserImpactOnMemory", "B2C (RB_b2c3-MSLearnLti)", "Our AD (ALLTest2-AD-MSLearnLTI)", "Original AD (A_MSLearnLTI)")
 
 
 #endregion 
