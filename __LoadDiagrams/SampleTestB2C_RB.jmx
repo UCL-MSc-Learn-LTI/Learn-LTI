@@ -18,7 +18,7 @@
           <boolProp name="LoopController.continue_forever">false</boolProp>
           <stringProp name="LoopController.loops">10</stringProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">50</stringProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
         <stringProp name="ThreadGroup.ramp_time">10</stringProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
         <stringProp name="ThreadGroup.duration">120</stringProp>
@@ -30,11 +30,11 @@
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">assignments-hdpcpw5am.azurewebsites.net</stringProp>
+          <stringProp name="HTTPSampler.domain">assignments-5egzjulbq.azurewebsites.net</stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">/api/assignments/NQ==_MTQw</stringProp>
+          <stringProp name="HTTPSampler.path">/api/assignments/NQ==_MTYw</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -49,7 +49,7 @@
             <collectionProp name="HeaderManager.headers">
               <elementProp name="" elementType="Header">
                 <stringProp name="Header.name">Authorization</stringProp>
-                <stringProp name="Header.value">bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjQ1aGFyLW93M1p6OFpFWG5TejNWZElqbzg1QUp0MVFILUxvMXdhZnYzSzQifQ.eyJpc3MiOiJodHRwczovL2x0aW1vb2RsZWIyYy5iMmNsb2dpbi5jb20vYTU1MzI1ZjctOTlkZC00N2QyLWEzOTgtYzExMmU5ODhiMWFlL3YyLjAvIiwiZXhwIjoxNjYxNDQwNTI1LCJuYmYiOjE2NjE0MzY5MjUsImF1ZCI6ImU2NjA3Y2RiLTU1ODYtNDA3OC1iOGFhLTE3M2VhMzlmZTNkZiIsImVtYWlsIjoiY2hyaXNAdWNsbXNjbGVhcm5sdGkub25taWNyb3NvZnQuY29tIiwidGlkIjoiMjE1MTBiYjktNjQxNC00NmQwLTlhMDctMWZhZjk4ZjI1OTM3IiwiZ2l2ZW5fbmFtZSI6ImNocmlzIiwiZmFtaWx5X25hbWUiOiJncmVlbiIsIm5hbWUiOiJjaHJpc2dyZWVuIiwiaWRwIjoiaHR0cHM6Ly9sb2dpbi5taWNyb3NvZnRvbmxpbmUuY29tLzIxNTEwYmI5LTY0MTQtNDZkMC05YTA3LTFmYWY5OGYyNTkzNy92Mi4wIiwic3ViIjoiMzNlNjEwMjQtYzlhMC00NTU2LTgzOGQtODhhNWFjNDI2MGIwIiwiX2lzQjJDVG9rZW4iOnRydWUsIm5vbmNlIjoiOGMyNDgxMWEtMWM3Ny00MmRlLWI4ZjctY2MzYzA4MTIyYjFlIiwic2NwIjoiYjJjLnJlYWQiLCJhenAiOiJlNjYwN2NkYi01NTg2LTQwNzgtYjhhYS0xNzNlYTM5ZmUzZGYiLCJ2ZXIiOiIxLjAiLCJpYXQiOjE2NjE0MzY5MjV9.S9sksXhXeKFODr8N0qPfI1bO--GGKERnnckN6gBbCFgyTk4gdL43qjDkFvcyc6mb_lVv8sKtuhZRpXOFQPOjyYAp81GKet2YxmnN63pYRUrfgkNVP5hPZ1NmB37liM9gFx5a98hopDzcxxB2fpZhOR2G0o5sNYn7VhP0nO7QE-pXnCpLSXrou6oywRLXKr53R5tUywMRLvB4o_Ba8Bc89thHlJbnFw11dpFdJx62xt_PfIS7n4ksOG1B-cHgoqEVT8cuBFcspUBocVEvTFCedWrjOldEAu54vVRqUaWO63fySIM0894P2f05naGMC0MjQTWOJvWW0ePvRELdm-yWSA</stringProp>
+                <stringProp name="Header.value">bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IkdTcEJrX0RnYnNTRmZiQnJsdWRDX0xodU5ITkxVUzVoNmlscDY2ZnNQajQifQ.eyJpc3MiOiJodHRwczovL3JidWNsLmIyY2xvZ2luLmNvbS80M2I4MWZlMy01OTA3LTRjOGUtOTEwMi0xNDViM2Y3NDhkOGMvdjIuMC8iLCJleHAiOjE2NjE1MjI5NTIsIm5iZiI6MTY2MTUxOTM1MiwiYXVkIjoiMWE2ZDIxMzMtNDc0OC00MWM0LTk0ODEtMzQ5ODE3NzIxODdiIiwiZW1haWwiOiJkYW5pZWwubXVzc2Vsd2hpdGUuMjFAdWNsLmFjLnVrIiwidGlkIjoiMWZhZjg4ZmUtYTk5OC00YzViLTkzYzktMjEwYTExZDlhNWMyIiwiZ2l2ZW5fbmFtZSI6IkRhbmllbCIsImZhbWlseV9uYW1lIjoiTXVzc2Vsd2hpdGUiLCJuYW1lIjoiTXVzc2Vsd2hpdGUsIERhbmllbCIsImlkcCI6Imh0dHBzOi8vbG9naW4ubWljcm9zb2Z0b25saW5lLmNvbS8xZmFmODhmZS1hOTk4LTRjNWItOTNjOS0yMTBhMTFkOWE1YzIvdjIuMCIsInN1YiI6ImI0ODJiMTc4LTcxMzUtNGI2Mi04YWZiLTJmNGI4NzY3MGFmYiIsIl9pc0IyQ1Rva2VuIjp0cnVlLCJub25jZSI6IjBhYjdjMWU5LTQ2NjUtNDliNS04Zjc2LTg1ODkxMTgzNDU3MyIsInNjcCI6ImIyYy5yZWFkIiwiYXpwIjoiMWE2ZDIxMzMtNDc0OC00MWM0LTk0ODEtMzQ5ODE3NzIxODdiIiwidmVyIjoiMS4wIiwiaWF0IjoxNjYxNTE5MzUyfQ.JXnbDCG2GMCvxzgJDV9rm9rxDNedEA6kfJcJHwfsQxF_NicF8yj-e9hblJRsSJampHg2TEaeE4SUcl_38hnHkEVHDwrhY0Gmdyd6VfQkQ2SIQjt6z3QquJUtxMqK_p3FwtkUs-e4F7y5zk0YHwZW15850kQ1LY8ED1v5tKeLKG79eGa80aNe7q_ZW3_ms2gkz2OchEv94jGxeBFUNG9EhqKTLB35FGUfEKqAkr_HnyHpRfCaebhHeVWFU4ZngWTJtZCIr8HMjB_Qrz2hWx0mb00PkFoGVjqrUsBkLKR41j6NfL16JNkrvP_ex8e7MGVEq-NJ-oF4brmNx2ccyFh1iA</stringProp>
               </elementProp>
             </collectionProp>
           </HeaderManager>
