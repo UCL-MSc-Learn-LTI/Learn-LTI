@@ -6,6 +6,12 @@ def drawDiagram(xAxis1, yAxis1, xAxis2, yAxis2, xAxis3, yAxis3, xLabel, yLabel, 
     
     plt.figure(figsize=(14,6), dpi=80)
 
+    font = {'family' : 'DejaVu Sans',
+        'weight' : 'bold',
+        'size'   : 14}
+
+    plt.rc('font', **font)
+
     plt.plot(xAxis1, yAxis1, linestyle='--', c='lightblue', label=yLegend1)
     plt.scatter(xAxis1, yAxis1, c='blue', marker="x")
     # plt.text(800, min(yAxis1+yAxis2+yAxis3)+(max(yAxis1+yAxis2+yAxis3)-min(yAxis1+yAxis2+yAxis3))*0.7, "Our B2C did not fail", color="blue")
