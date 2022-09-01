@@ -4,7 +4,7 @@ import os
 
 def drawDiagram(xAxis1, yAxis1, xAxis2, yAxis2, xAxis3, yAxis3, xLabel, yLabel, Title, directory, yLegend1, yLegend2, yLegend3):
     
-    plt.figure(figsize=(14,6), dpi=80)
+    plt.figure(figsize=(14,3), dpi=80)
 
     font = {'family' : 'DejaVu Sans',
         'weight' : 'bold',
@@ -24,15 +24,18 @@ def drawDiagram(xAxis1, yAxis1, xAxis2, yAxis2, xAxis3, yAxis3, xLabel, yLabel, 
     plt.scatter(xAxis3, yAxis3, c='green', marker="x")
     # plt.text(800, min(yAxis1+yAxis2+yAxis3)+(max(yAxis1+yAxis2+yAxis3)-min(yAxis1+yAxis2+yAxis3))*0.2, "Original AD does not fail", color="green")
     
-    for xy in zip(xAxis1, yAxis1):
-        if(xy[0]>=100):
-            plt.annotate(' (%d, %.1f)' % xy, xy=xy, color='darkblue')
-    for xy in zip(xAxis2, yAxis2):
-        if(xy[0]>=100):
-            plt.annotate(' (%d, %.1f)' % xy, xy=xy, color='darkred')
-    for xy in zip(xAxis3, yAxis3):
-        if(xy[0]>=100):
-            plt.annotate(' (%d, %.1f)' % xy, xy=xy, color='darkgreen')
+    # for xy in zip(xAxis1, yAxis1):
+    #     if(xy[0]>=100):
+    #         annotation = ' (%d, %.1f)' % xy
+    #         plt.annotate(annotation, xy=(xy[0]-len(annotation)*11,xy[1]), color='darkblue')
+    # for xy in zip(xAxis2, yAxis2):
+    #     if(xy[0]>=100):
+    #         annotation = ' (%d, %.1f)' % xy
+    #         plt.annotate(annotation, xy=(xy[0]-len(annotation)*11,xy[1]), color='darkred')
+    # for xy in zip(xAxis3, yAxis3):
+    #     if(xy[0]>=100):
+    #         annotation = ' (%d, %.1f)' % xy
+    #         plt.annotate(annotation, xy=(xy[0]-len(annotation)*11,xy[1]), color='darkgreen')
 
 
 
